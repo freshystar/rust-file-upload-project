@@ -1,4 +1,9 @@
-use axum::{extract::Multipart, response::Html, routing::{get, post}, Router};
+use axum::{
+    extract::Multipart,
+    response::Html,
+    routing::{get, post},
+    Router,
+};
 use std::{env, fs::File, io::Write};
 
 async fn index() -> Html<&'static str> {
@@ -57,7 +62,9 @@ pub async fn send_file(mut multipart: Multipart) -> &'static str {
 
 #[tokio::main]
 async fn main() {
-    let app = Router::new().route("/", get(index).post(upload)).route("/cli-upload", post(send_file));
+    let app = Router::new()
+        .route("/", get(index).post(upload))
+        .route("/cli-upload", post(send_file));
 
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3000")
         .await
